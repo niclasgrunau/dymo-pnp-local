@@ -26,6 +26,7 @@ app.post("/local-resize", (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
       }
       console.log(`Command output: ${stdout}`);
+      res.json({ message: "Image resized successfully" });
     }
   );
 });
@@ -35,7 +36,6 @@ app.post("/download-command", (req, res) => {
   try {
     // Define the path of the resized image
     const imagePath = path.join(__dirname, "output.pdf");
-
     // Execute the print command using CUPS
     exec(
       `lp -d DYMO_LabelManager_PnP -o landscape -o PageSize=w35h252 -o fit-to-page ${imagePath}`,
