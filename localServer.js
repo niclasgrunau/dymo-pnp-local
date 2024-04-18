@@ -9,6 +9,8 @@ let canvasWidth;
 // Enable CORS middleware
 app.use(cors());
 
+app.use(express.json()); // Add this line to parse JSON bodies
+
 // Route to handle the GET request
 app.get("/test-route", (req, res) => {
   res.status(200).json({ message: "worked" });
@@ -17,6 +19,8 @@ app.get("/test-route", (req, res) => {
 // Route to handle image resizing
 app.post("/local-resize", (req, res) => {
   canvasWidth = req.body.canvasWidth;
+
+  console.log("Width:", canvasWidth);
 
   // Define the URL of the image to resize
   const imagePath =
@@ -49,6 +53,7 @@ app.post("/download-command", (req, res) => {
     const imagePath = path.join(__dirname, "output.pdf");
 
     let canvasWidthPrintingSite = Math.floor(canvasWidth / 2.91666667); //this doesnt affect werid scale
+    console.log("Width:", canvasWidth);
 
     const execCommand = `lp -d DYMO_LabelManager_PnP -o landscape -o PageSize=Custom.24x${canvasWidthPrintingSite} -o fit-to-page ${imagePath}`;
 
